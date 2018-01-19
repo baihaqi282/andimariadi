@@ -22,20 +22,22 @@ include "koneksi.php";?>
                        </div>
 					   <label class="col-sm-3 control-label">Jenis</label>
                     <div class="col-sm-3">
-                    	<select name="nama" class="form-control" placeholder="Nama Peti" required="" span="label label-success">
+                    	<select name="nama" id="jenis" class="form-control" placeholder="Nama Peti" required="" span="label label-success">
 						<option required="required" value="">Pilih</option>
+            <option value="toko">Toko</option>
+            <option value="los">Los</option>
+            <option value="bak">Bak</option>
 						</select>
                        </div>
 					   <label class="col-sm-3 control-label">Nama</label>
 					   <div class="col-sm-5">
-                    <select class="form-control" span="label label-success" name="np" required="required">
+                    <select class="form-control" span="label label-success" name="np" required="required" id="nama_anu">
 					<option required="required" value="">Pilih</option>
-		
 					</select>
 					</div>
 					<label class="col-sm-3 control-label">Blok</label>
 					   <div class="col-sm-5">
-						<input type="text" name="bk" class="form-control" placeholder="Blok" required>
+						<input type="text" name="bk" class="form-control" placeholder="Blok" id="nama" required>
 					</div>
 					   <label class="col-sm-3 control-label">Pembayaran Bulan</label>
                     <div class="col-sm-4">
@@ -87,4 +89,57 @@ include "koneksi.php";?>
   <script src="js/misc.js"></script>
   <script src="js/chart.js"></script>
   <script src="js/maps.js"></script>
-       
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#jenis").on("change", function() {
+      var data = $(this).val();
+      //alert(data);
+      if (data == 'toko') {
+        $.ajax({
+          type: 'POST',
+          url: 'api/jpftu.php',
+          data: 'data=' + data,
+          success:function(data) {
+            $("#nama_anu").html(data);
+          }
+        })
+        //alert('sip')
+      } else if(data == 'los') {
+        $.ajax({
+          type: 'POST',
+          url: 'api/jpftu.php',
+          data: 'data=' + data,
+          success:function(data) {
+            $("#nama_anu").html(data);
+          }
+        })
+        //alert('kada sip');
+      } else {
+        $.ajax({
+          type: 'POST',
+          url: 'api/jpftu.php',
+          data: 'data=' + data,
+          success:function(data) {
+            $("#nama_anu").html(data);
+          }
+        })
+        //alert('anu');
+      }
+    });
+
+    $("#nama_anu").on("change", function() {
+      var data = $("#jenis").val();
+      var nama = $(this).val();
+      //alert(data);
+      $.ajax({
+        type: 'POST',
+        url: 'api/jpftu_blok.php',
+        data: 'data=' + data +'&nama=' + nama,
+        success:function(data) {
+          $("#nama").val(data);
+          //alert(data);
+        }
+      });
+    });
+  })
+</script>
