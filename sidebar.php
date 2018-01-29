@@ -1,7 +1,7 @@
 <nav class="bg-white sidebar sidebar-offcanvas" id="sidebar">
           <div class="user-info">
             <img src="images/profile.jpg" alt="">
-            <p class="name">Richard V.Welsh</p>
+            <p class="name"></p>
             <p class="designation">Manager</p>
             <span class="online"></span>
           </div>
@@ -12,12 +12,12 @@
                 <span class="menu-title">Beranda</span>
               </a>
             </li>
-            <li class="nav-item ">
+            <li id="master" class="nav-item ">
 			<a class="nav-link" data-toggle="collapse" href="#master-data" aria-expanded="false" aria-controls="master-data">
                 <img src="images/icons/1.png" alt="">
                 <span class="menu-title">Master Data<i class="fa fa-sort-down"></i></span>
               </a>
-			  <div class="collapse" id="master-data">
+			  <div class="collapse master-data" id="master-data">
 			  <ul class="nav flex-column sub-menu">
 			  <li class="nav-item">
 			  <a class="nav-link" href="lapblok.php">
@@ -57,7 +57,7 @@
                 <img src="images/icons/1.png" alt="">
                 <span class="menu-title">Transaksi<i class="fa fa-sort-down"></i></span>
               </a>
-			  <div class="collapse" id="sub-menu">
+			  <div class="collapse transaksi" id="sub-menu">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
                     <a class="nav-link" href="lapjpftu.php">
@@ -65,7 +65,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="jpfp.php">
+                    <a class="nav-link" href="lapjpfp.php">
                       JPFP
                     </a>
                   </li>
@@ -78,13 +78,18 @@
                 <img src="images/icons/10.png" alt="">
                 <span class="menu-title">Settings<i class="fa fa-sort-down"></i></span>
               </a>
-              <div class="collapse" id="sample-pages">
+              <div class="collapse setting" id="sample-pages">
                 <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
-                    <a class="nav-link" href="tambahpetugas.php">
-                      Tambah Petugas
+                    <a class="nav-link" href="lappetugas.php">
+                      Petugas
                     </a>
                   </li>
+				  <li class="nav-item">
+				  <a class="nav-link" href="denah.php">
+					Denah
+					</a>
+					</li>
                 </ul>
               </div>
             </li>

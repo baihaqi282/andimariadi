@@ -1,5 +1,7 @@
 <?php include "header.php";
-include "koneksi.php";?>
+include "koneksi.php";
+include "library.php"
+?>
 
 <div class=" container-scroller">
     <!-- partial:partials/_navbar.html -->

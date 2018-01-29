@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
   <link rel="stylesheet" href="node_modules/flag-icon-css/css/flag-icon.min.css" />
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="shortcut icon" href="images/favicon.png" />
+  <link rel="shortcut icon" href="images/004-folder-1.png" />
 </head>
 
 <body>

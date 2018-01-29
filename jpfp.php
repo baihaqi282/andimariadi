@@ -1,5 +1,7 @@
 <?php include "header.php";
-include "koneksi.php";?>
+include "koneksi.php";
+include "library.php"
+?>
 
 <div class=" container-scroller">
     <!-- partial:partials/_navbar.html -->
@@ -13,49 +15,112 @@ include "koneksi.php";?>
             <div class="col-lg-10">
               <div class="card">
                 <div class="card-body">
-				
+				<?php
+$cari = mysqli_query ($koneksi, "select max(`id`) as kd from jpfp");
+$tm_cari = mysqli_fetch_array ($cari);
+$kode = substr($tm_cari['kd'],1,2);
+$tambah = $kode+1;
+if ($tambah<10){
+$ed = "C0".$tambah;
+}else {
+$ed ="C".$tambah;
+}
+ //.koding simpan
+if (isset($_POST['add'])) {
+	$id = $_POST['id'];
+	$tgl = $_POST['tgl'];
+	$jns = $_POST['jns'];
+	$bln = $_POST['bln'];
+	$pkk = $_POST['pkk'];
+	$dnd = $_POST['dnd'];
+	$ttl = $_POST['ttl'];
+	
+  if ($id != '') {
+		$insert = mysqli_query($koneksi, "INSERT INTO jpfp (`id`,`tgl`,`jenis`,`bulan`,`pokok`,`denda`,`total`) 
+		VALUES ('$id','$tgl','$jns','$bln','$pkk','$dnd','$ttl')") or die(mysqli_error());
+		
+				if($insert) {
+			echo '<script type="text/javascript">alert("Data Berhasil disimpan") </script>';
+			echo '<meta http-equiv="refresh" content="0; url=./lapjpfp.php" >'; //coding refresh
+			
+		} else {
+			echo '<script type="text/javascript">alert("Data gagal disimpan")
+			</script>';
+			
+			echo '<meta http-equiv="refresh" content="0; url=./lapjpfp.php" >'; //coding refresh
+		}
+	}  else {
+		echo '<script type="text/javascript">alert("Data sudah ada")
+			</script>';
+			echo '<meta http-equiv="refresh" content="0; url=./lapjpfp.php" >'; //coding refresh
+  }
+}
+$now = strtotime(date("Y-m-d"));
+$maxage = date("Y-m-d", strtotime('- 16 year', $now));
+$minage = date("Y-m-d", strtotime('- 40 year', $now));
+?>
+
                   <form class="form" action="" method="post">
                 <div class="form-group"   >
                 	<label class="col-sm-3 control-label">No</label>
                     <div class="col-sm-2">
-                    	<input type="text" name="id" class="form-control" placeholder="ID Peti" required=""  value="" readonly>
+                    	<input type="text" name="id" class="form-control" placeholder="" required=""  value="<?php echo $ed;?>" readonly>
                        </div>
+					   <label class="col-sm-3 control-label">Tanggal</label>
+                    <div class="col-sm-4"> 
+                        <input type="date" name="tgl" value=""  class="input-group form-control" placeholder="YYYY-mm-dd" required>
+                        </div>
 					   <label class="col-sm-3 control-label">Jenis</label>
-                    <div class="col-sm-3">
-                    	<select name="nama" class="form-control" placeholder="Nama Peti" required="" span="label label-success">
-						<option required="required" value="">Pilih</option>
-						</select>
-                       </div>
-					   <label class="col-sm-3 control-label">Nama</label>
-					   <div class="col-sm-5">
-                    <select class="form-control" span="label label-success" name="np" required="required">
-					<option required="required" value="">Pilih</option>
-		
-					</select>
-					</div>
-					<label class="col-sm-3 control-label">Blok</label>
-					   <div class="col-sm-5">
-						<input type="text" name="bk" class="form-control" placeholder="Blok" required>
-					</div>
+                    <div class="col-sm-5">
+                    <select class="form-control" span="label label-success" name="jns" required="required">
+		<option required="required" value="">Pilih</option>
+		<?php
+			$k = mysqli_query ($koneksi, "select * from `jenis` order by `nama_jenis` ASC");
+			while ($data = mysqli_fetch_array ($k)) {
+			echo '<option value="' . $data[1]. '">' . $data[1].'</option>';
+			}
+			
+		?>
+		</select>
+		</div>
 					   <label class="col-sm-3 control-label">Pembayaran Bulan</label>
                     <div class="col-sm-4">
-                    	<input type="text" name="ukrn" class="form-control" placeholder="Bulan" required>
+                    	<input type="text" name="bln" class="form-control" placeholder="Bulan" value="<?php echo date('M');?>" />
                        </div>
-					   <label class="col-sm-3 control-label">Retribusi</label>
+					   <label class="col-sm-3 control-label">Pokok</label>
 				        <div class="col-sm-2">
-                    <input type="text" name="hrs" class="form-control" placeholder="-" required>
+                    <input type="text" name="pkk" class="form-control" placeholder="-" id="pokok" value="">
 						</div>
-						<label class="col-sm-3 control-label">PPN</label>
-				        <div class="col-sm-2">
-                    <input type="text" name="ppn" class="form-control" placeholder="-" required>
-						</div>
+						
+						
+						<div>
+						&nbsp
+						<div class="form-group">
+						
+                        <label class="col-sm-2">
+						
+                          <input class="col-sm-5" id="rppn" name="p1" value="" type="radio" checked>PPN
+                  
+                          </label>&nbsp <label class="col-sm-5">
+                          <input class="col-sm-2" id="radmin" name="p1" value="" type="radio" > Administrasi
+                        </label>
+                      </div></div>
+					  
 						<label class="col-sm-3 control-label">Denda</label>
 				        <div class="col-sm-2">
-                    <input type="text" name="dnd" class="form-control" placeholder="-" required>
+						<?php
+						//bikin denda otomatis
+						if(date('d') > 27){
+							$denda = '4500';
+						} else {
+							$denda = '';
+						}
+						?>
+                    <input type="text" name="dnd" id="denda" class="form-control" placeholder="-" value="<?php echo $denda;?>" readonly>
 						</div>
 						<label class="col-sm-3 control-label">Total</label>
 				        <div class="col-sm-2">
-                    <input type="text" name="ttl" class="form-control" placeholder="-" required>
+                    <input type="text" name="ttl" id="ttl" class="form-control" placeholder="-" required="" readonly>
 						</div>
                        </div>
 					   
@@ -87,4 +152,82 @@ include "koneksi.php";?>
   <script src="js/misc.js"></script>
   <script src="js/chart.js"></script>
   <script src="js/maps.js"></script>
-       
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#jenis").on("change", function() {
+      var data = $(this).val();
+      //alert(data);
+      if (data == 'toko') {
+        $.ajax({
+          type: 'POST',
+          url: 'api/jpftu.php',
+          data: 'data=' + data,
+          success:function(data) {
+            $("#nama_anu").html(data);
+          }
+        })
+        //alert('sip')
+      } else if(data == 'los') {
+        $.ajax({
+          type: 'POST',
+          url: 'api/jpftu.php',
+          data: 'data=' + data,
+          success:function(data) {
+            $("#nama_anu").html(data);
+          }
+        })
+        //alert('kada sip');
+      } else {
+        $.ajax({
+          type: 'POST',
+          url: 'api/jpftu.php',
+          data: 'data=' + data,
+          success:function(data) {
+            $("#nama_anu").html(data);
+          }
+        })
+        //alert('anu');
+      }
+    });
+
+    $("#nama_anu").on("change", function() {
+      var data = $("#jenis").val();
+      var nama = $(this).val();
+      //alert(data);
+      $.ajax({
+        type: 'POST',
+        url: 'api/jpftu_blok.php',
+        data: 'data=' + data +'&nama=' + nama,
+        success:function(data) {
+          $("#nama").val(data);
+          //alert(data);
+        }
+      });
+    });
+	
+	$("#rppn").on('click', function() {
+		var pokok = $("#pokok").val();
+		var denda = $("#denda").val();
+		var a = pokok * (10/100);
+		var c = parseInt(pokok)+parseInt(a);
+		if (<?php echo date('d');?> > 27) {
+			$("#ttl").val(parseInt(c)+parseInt(denda));
+		} else {
+			$("#ttl").val(c);
+		}
+		
+	});
+	$("#radmin").on('click', function() {
+		var pokok = $("#pokok").val();
+		var denda = $("#denda").val();
+		var a = pokok * (11.5/100);
+		var c = parseInt(pokok)+parseInt(a);
+		if (<?php echo date('d');?> > 27) {
+			$("#ttl").val(parseInt(c)+parseInt(denda));
+		} else {
+			$("#ttl").val(c);
+		}
+	});
+  })
+ 
+</script>

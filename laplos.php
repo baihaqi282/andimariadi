@@ -1,5 +1,7 @@
 <?php include "header.php";
-include "koneksi.php";?>
+include "koneksi.php";
+include "library.php"
+?>
 
 <div class=" container-scroller">
     <!-- partial:partials/_navbar.html -->
@@ -28,12 +30,12 @@ if (isset($_GET['del'])) {
 }
 ?>	  
 	  <div class="content-wrapper">
-          <h3 class="page-heading mb-4">Data Los</h3>
+          <h3 class="page-heading mb-4">Data Los<small>&nbsp( <?php echo IndonesiaTgl(date('Y-m-d'));?> )</small></h3>
            <div class="row mb-2">
             <div class="col-lg-12">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title mb-4" ><a href="los.php"><span class="fa fa-plus">Tambah Data</a></span></h5>
+                  <h5 class="card-title mb-4" ><a href="los.php"><span class="fa fa-plus">Tambah Data</a><i class="fa fa-bookmark float-right icon-grey-big"></i></span></h5>
                   <div class="table-responsive">
                     <table class="table center-aligned-table">
                       <thead>
@@ -101,4 +103,7 @@ if (isset($_GET['del'])) {
   <script src="js/misc.js"></script>
   <script src="js/chart.js"></script>
   <script src="js/maps.js"></script>
+   <script type="text/javascript">
+	$(".master-data").addClass("show");
+  </script>
        

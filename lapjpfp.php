@@ -1,103 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php include "header.php";
+include "koneksi.php";
+include "library.php"?>
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Aplikasi Pendapatan Daerah Pasar Bauntung Tanjung Kabupaten Tabalong</title>
-  <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="node_modules/perfect-scrollbar/dist/css/perfect-scrollbar.min.css" />
-  <link rel="stylesheet" href="node_modules/flag-icon-css/css/flag-icon.min.css" />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="shortcut icon" href="images/favicon.png" />
-</head>
-
-<body>
 <div class=" container-scroller">
     <!-- partial:partials/_navbar.html -->
 <?php include "navbar.php";?> 
  <div class="container-fluid">
       <div class="row row-offcanvas row-offcanvas-right">
-<?php include "sidebar.php";?>	  
-	  <div class="content-wrapper">
-          <h3 class="page-heading mb-4">Laporan JPFP</h3>
+<?php include "sidebar.php";?>
+
+<?php // Coding Hapus
+if (isset($_GET['del'])) {
+  $id = $_GET['del'];
+  $cek = mysqli_query($koneksi, "SELECT * FROM jpfp WHERE `id`='$id'");
+  if (mysqli_num_rows($cek) > 0) {
+    $delete = mysqli_query($koneksi, "DELETE FROM jpfp WHERE `id`='$id'");
+    if ($delete) {
+      echo '<div class="alert alert-danger alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Berhasil!</strong> Data Telah dihapus.</div>';
+  echo '<meta http-equiv="refresh" content="0; url=./lapjpfp.php" >'; //coding refresh
+    } else {
+      echo '<div class="alert alert-warning alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Kesalahan!</strong> Tidak dapat menghapus data.</div>';
+    }
+  }
+}
+?>	
+
+  <div class="content-wrapper">
+          <h3 class="page-heading mb-4">Transaksi JPFP(Jasa Pelayanan Fasilitas Pasar)<small>&nbsp( <?php echo IndonesiaTgl(date('Y-m-d'));?> )</small></h3>
            <div class="row mb-2">
             <div class="col-lg-12">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title mb-4">Advanced Table</h5>
+                  <h5 class="card-title mb-4" ><a href="jpfp.php"><span class="fa fa-plus">Tambah Data</a><i class="fa fa-bookmark float-right icon-grey-big"></i></span></h5>
                   <div class="table-responsive">
                     <table class="table center-aligned-table">
                       <thead>
-                        <tr class="text-primary">
+                        <tr align="center">
                           <th>No</th>
-                          <th>Invoice Subject</th>
-                          <th>Client</th>
-                          <th>VatNo.</th>
-                          <th>Created</th>
-                          <th>Status</th>
-                          <th>Price</th>
-                          <th></th>
-                          <th></th>
+                          <th>Tanggal</th>
+						  <th>Jenis</th>
+						  <th>Bulan Pembayaran</th>
+						  <th>Retribusi</th>
+						  <th>Denda</th>
+						  <th>Total</th>
+						  <th>Pilihan</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr class="">
-                          <td>034</td>
-                          <td>Designs</td>
-                          <td>Client</td>
-                          <td>53275531</td>
-                          <td>12 May 2017</td>
-                          <td><label class="badge badge-success">Approved</label></td>
-                          <td>$349</td>
-                          <td><a href="#" class="btn btn-primary btn-sm">Manage</a></td>
-                          <td><a href="#" class="btn btn-danger btn-sm">Remove</a></td>
-                        </tr>
-                        <tr class="">
-                          <td>035</td>
-                          <td>Designs</td>
-                          <td>Client</td>
-                          <td>53275531</td>
-                          <td>12 May 2017</td>
-                          <td><label class="badge badge-warning">Approved</label></td>
-                          <td>$349</td>
-                          <td><a href="#" class="btn btn-primary btn-sm">Manage</a></td>
-                          <td><a href="#" class="btn btn-danger btn-sm">Remove</a></td>
-                        </tr>
-                        <tr class="">
-                          <td>036</td>
-                          <td>Designs</td>
-                          <td>Client</td>
-                          <td>53275531</td>
-                          <td>12 May 2017</td>
-                          <td><label class="badge badge-success">Approved</label></td>
-                          <td>$349</td>
-                          <td><a href="#" class="btn btn-primary btn-sm">Manage</a></td>
-                          <td><a href="#" class="btn btn-danger btn-sm">Remove</a></td>
-                        </tr>
-                        <tr class="">
-                          <td>037</td>
-                          <td>Designs</td>
-                          <td>Client</td>
-                          <td>53275531</td>
-                          <td>12 May 2017</td>
-                          <td><label class="badge badge-danger">Rejected</label></td>
-                          <td>$349</td>
-                          <td><a href="#" class="btn btn-primary btn-sm">Manage</a></td>
-                          <td><a href="#" class="btn btn-danger btn-sm">Remove</a></td>
-                        </tr>
-                        <tr class="">
-                          <td>038</td>
-                          <td>Designs</td>
-                          <td>Client</td>
-                          <td>53275531</td>
-                          <td>12 May 2017</td>
-                          <td><label class="badge badge-success">Approved</label></td>
-                          <td>$349</td>
-                          <td><a href="#" class="btn btn-primary btn-sm">Manage</a></td>
-                          <td><a href="#" class="btn btn-danger btn-sm">Remove</a></td>
-                        </tr>
+                         <?php
+      $tanggal = date('Y-m-d');
+
+        $sql = mysqli_query($koneksi, "SELECT * FROM `jpfp` order by `id` asc");
+      
+      if (mysqli_num_rows($sql) == 0) {
+        echo "<tr><td colspan=\"9\">Tidak Ada Data</td></tr>";
+      } else {
+        $no = 0;
+        while ($data = mysqli_fetch_array($sql)) {
+          $no++;
+          echo '
+        <tr align="center" bgcolor="#CCCCCC">
+           
+          <td>'.$data[0].'</td>
+          <td>'.$data[1].'</td>
+		  <td>'.$data[2].'</td>
+		  <td>'.$data[3].'</td>
+		  <td>'.$data[4].'</td>
+		  <td>'.$data[5].'</td>
+		  <td>'.$data[6].'</td>
+		  
+		  
+		  
+		  
+		<td><a href="editjpftu.php?id='.$data[0].'"  class="btn-primary btn-sm"><span  class="fa fa-pencil-square-o" aria-hidden="true"></span></a> 
+          <a href="?del='.$data[0].'" class="btn-danger btn-sm" ><span class="fa fa-trash" aria-hidden="true" onclick="return confirm(\'Hapus data ini?\')"></span></a></td>
+        </tr>';
+		}
+      }
+    ?>
                       </tbody>
                     </table>
                   </div>
@@ -106,6 +90,9 @@
             </div>
           </div>
         </div>
+		</div>
+		</div>
+		
     
         <!-- partial:partials/_footer.html -->
 </body>
@@ -121,4 +108,7 @@
   <script src="js/misc.js"></script>
   <script src="js/chart.js"></script>
   <script src="js/maps.js"></script>
+  <script type="text/javascript">
+	$(".transaksi").addClass("show");
+  </script>
        

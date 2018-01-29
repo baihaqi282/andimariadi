@@ -1,34 +1,45 @@
 <?php include "header.php";
 include "koneksi.php";
-?>
+include"library.php"?>
 
 <div class=" container-scroller">
     <!-- partial:partials/_navbar.html -->
 <?php include "navbar.php";?> 
  <div class="container-fluid">
       <div class="row row-offcanvas row-offcanvas-right">
-<?php include "sidebar.php";?>	  
-	 <div class="content-wrapper">
-          <h3 class="page-heading mb-4">Beranda</h3>
-         
-          
-          
-         
-          <div class="row mb-2">
+<?php include "sidebar.php";?>
+
+  <div class="content-wrapper">
+          <h3 class="page-heading mb-4">Data Petugas<small>&nbsp( <?php echo IndonesiaTgl(date('Y-m-d'));?> )</small></h3>
+           <div class="row mb-2">
             <div class="col-lg-12">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="display-4"><strong>Aplikasi Pendapatan Daerah</strong></h5>
-                  <p class="text-left"><h3>Pasar Bauntung Tanjung Kabupaten Tabalong</h3></p>
-                  
-
-                 
+                  <h5 class="card-title mb-4" ><a href="petugas.php"><span class="fa fa-plus">Tambah Data</a><i class="fa fa-bookmark float-right icon-grey-big"></i></span></h5>
+                  <div class="table-responsive">
+                    <table class="table center-aligned-table">
+                      <thead>
+                        <tr align="center">
+                          <th>No</th>
+                          <th>Nama</th>
+						  <th>Tempat Lahir</th>
+						  <th>Tanggal Lahir</th>
+						  <th>Jabatan</th>
+						  <th>Alamat</th>
+						  <th>Status</th>
+						  <th>User</th>
+						  <th>Password</th>
+						  <th>Pilihan</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-			
           </div>
         </div>
     
@@ -46,4 +57,7 @@ include "koneksi.php";
   <script src="js/misc.js"></script>
   <script src="js/chart.js"></script>
   <script src="js/maps.js"></script>
+  <script type="text/javascript">
+	$(".setting").addClass("show");
+  </script>
        

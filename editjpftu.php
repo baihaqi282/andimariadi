@@ -1,7 +1,7 @@
 <?php include "header.php";
 include "koneksi.php";
-include "library.php"
-?>
+include "library.php";
+$ud1 = $_GET['id'];?>
 
 <div class=" container-scroller">
     <!-- partial:partials/_navbar.html -->
@@ -15,19 +15,14 @@ include "library.php"
             <div class="col-lg-10">
               <div class="card">
                 <div class="card-body">
-				<?php
-$cari = mysqli_query ($koneksi, "select max(`id`) as kd from jpftu");
-$tm_cari = mysqli_fetch_array ($cari);
-$kode = substr($tm_cari['kd'],1,2);
-$tambah = $kode+1;
-if ($tambah<10){
-$ed = "F0".$tambah;
-}else {
-$ed ="F".$tambah;
-}
- //.koding simpan
-if (isset($_POST['add'])) {
-	$id = $_POST['id'];
+				<?php 
+$ubah = mysqli_query ($koneksi, "select * from jpftu where id ='$ud1'");
+$data = mysqli_fetch_array ($ubah);
+?>
+
+<?php
+if (isset($_POST['edt'])) {
+	
 	$tgl = $_POST['tgl'];
 	$nama = $_POST['nama'];
 	$np = $_POST['np'];
@@ -37,26 +32,23 @@ if (isset($_POST['add'])) {
 	$dnd = $_POST['dnd'];
 	$ttl = $_POST['ttl'];
 	
-  if ($id != '') {
-		$insert = mysqli_query($koneksi, "INSERT INTO jpftu (`id`,`tgl`,`jenis_jpftu`,`id_`,`idindeks`,`bulan`,`retribusi`,`denda`,`total`) 
-		VALUES ('$id','$tgl','$nama','$np','$bk','$bln','$pkk','$dnd','$ttl')") or die(mysqli_error());
+	$cek = mysqli_query($koneksi, "select * from jpftu where id='$data[0]'"); //cek data yg mau diedit
+	
+  if (mysqli_num_rows($cek) !=0) {
+		$edit = mysqli_query($koneksi, "UPDATE `jpftu` set  `tgl`='$tgl',`jenis_jpftu`='$nama',`id_`='$np',`idindeks`='$bk',`bulan`='$bln',`retribusi`='$pkk',`denda`='$dnd',`total`='$ttl' where `id`='$ud1'") 
+		or die (mysqli_error());
 		
-				if($insert) {
+				if($edit) {
 			echo '<script type="text/javascript">alert("Data Berhasil disimpan") </script>';
 			echo '<meta http-equiv="refresh" content="0; url=./lapjpftu.php" >'; //coding refresh
 			
 		} else {
 			echo '<script type="text/javascript">alert("Data gagal disimpan")
 			</script>';
-			
-			echo '<meta http-equiv="refresh" content="0; url=./lapjpftu.php" >'; //coding refresh
 		}
-	}  else {
-		echo '<script type="text/javascript">alert("Data sudah ada")
-			</script>';
-			echo '<meta http-equiv="refresh" content="0; url=./lapjpftu.php" >'; //coding refresh
-  }
+	} 
 }
+
 $now = strtotime(date("Y-m-d"));
 $maxage = date("Y-m-d", strtotime('- 16 year', $now));
 $minage = date("Y-m-d", strtotime('- 40 year', $now));
@@ -66,16 +58,16 @@ $minage = date("Y-m-d", strtotime('- 40 year', $now));
                 <div class="form-group"   >
                 	<label class="col-sm-3 control-label">No</label>
                     <div class="col-sm-2">
-                    	<input type="text" name="id" class="form-control" placeholder="" required=""  value="<?php echo $ed;?>" readonly>
+                    	<input type="text" name="id" class="form-control" placeholder="" required=""  value="<?php echo $data[0];?>" readonly>
                        </div>
 					   <label class="col-sm-3 control-label">Tanggal</label>
                     <div class="col-sm-4"> 
-                        <input type="date" name="tgl" value=""  class="input-group form-control" placeholder="YYYY-mm-dd" required>
+                        <input type="date" name="tgl" value="<?php echo $data[1]?>"  class="input-group form-control" placeholder="YYYY-mm-dd" required>
                         </div>
 					   <label class="col-sm-3 control-label">Jenis</label>
                     <div class="col-sm-3">
                     	<select name="nama" id="jenis" class="form-control" placeholder="Nama Jenis" required="" span="label label-success">
-						<option required="required" value="">Pilih</option>
+						<option required="required" value="<?php echo $data[2];?>">Pilih</option>
             <option value="toko">Toko</option>
             <option value="los">Los</option>
             <option value="bak">Bak</option>
@@ -84,12 +76,12 @@ $minage = date("Y-m-d", strtotime('- 40 year', $now));
 					   <label class="col-sm-3 control-label">Nama</label>
 					   <div class="col-sm-5">
                     <select class="form-control" span="label label-success" name="np" required="required" id="nama_anu">
-					<option required="required" value="">Pilih</option>
+					<option required="required" value="<?php echo $data[3];?>">Pilih</option>
 					</select>
 					</div>
 					<label class="col-sm-3 control-label">Blok</label>
 					   <div class="col-sm-5">
-						<input type="text" name="bk" class="form-control" placeholder="Blok" id="nama" required="" readonly>
+						<input type="text" name="bk" class="form-control" placeholder="Blok" id="nama"   value="<?php echo $data[4];?>">
 					</div>
 					   <label class="col-sm-3 control-label">Pembayaran Bulan</label>
                     <div class="col-sm-4">
@@ -97,7 +89,7 @@ $minage = date("Y-m-d", strtotime('- 40 year', $now));
                        </div>
 					   <label class="col-sm-3 control-label">Pokok</label>
 				        <div class="col-sm-2">
-                    <input type="text" name="pkk" class="form-control" placeholder="-" id="pokok" value="">
+                    <input type="text" name="pkk" class="form-control" placeholder="-" id="pokok" value="<?php echo $data[6];?>">
 						</div>
 						
 						
@@ -124,17 +116,17 @@ $minage = date("Y-m-d", strtotime('- 40 year', $now));
 							$denda = '';
 						}
 						?>
-                    <input type="text" name="dnd" id="denda" class="form-control" placeholder="-" value="<?php echo $denda;?>" readonly>
+                    <input type="text" name="dnd" id="denda" class="form-control" placeholder="-" value="<?php echo $denda;?>">
 						</div>
 						<label class="col-sm-3 control-label">Total</label>
 				        <div class="col-sm-2">
-                    <input type="text" name="ttl" id="ttl" class="form-control" placeholder="-" required="" readonly>
+                    <input type="text" name="ttl" id="ttl" class="form-control" placeholder="-"  value="<?php echo $data[8];?>" readonly>
 						</div>
                        </div>
 					   
                        <div class="form-group">
                        <div class="col-sm-3">
-                       <button type="submit" name="add" class="btn btn-primary"><span class="fa fa-save"> Simpan</span></button>
+                       <button type="submit" name="edt" class="btn btn-primary"><span class="fa fa-save"> Simpan</span></button>
                        <a href="lapjpftu.php" type="button" class="btn btn-danger mr-2"><span class="fa fa-remove"> Batal</span></a>
                        </div>
                        </div>

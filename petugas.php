@@ -8,75 +8,54 @@ include "koneksi.php";?>
       <div class="row row-offcanvas row-offcanvas-right">
 <?php include "sidebar.php";?>	  
 	  <div class="content-wrapper">
-          <h3 class="page-heading mb-4">Data Penyewa</h3>
+          <h3 class="page-heading mb-4">Data Petugas</h3>
           <div class="row mb-2">
             <div class="col-lg-10">
               <div class="card">
                 <div class="card-body">
-				<?php
-$cari = mysqli_query ($koneksi, "select max(`id_penyewa`) as kd from penyewa");
-$tm_cari = mysqli_fetch_array ($cari);
-$kode = substr($tm_cari['kd'],1,2);
-$tambah = $kode+1;
-if ($tambah<10){
-$ed = "P0".$tambah;
-}else {
-$ed ="P".$tambah;
-}
- //.koding simpan
-if (isset($_POST['add'])) {
-	$id = $_POST['id'];
-	$nama = $_POST['nama'];
-	$ktp = $_POST['ktp'];
-	$almt = $_POST['almt'];
-	$tlp = $_POST['tlp'];
-	
-  if ($id != '') {
-		$insert = mysqli_query($koneksi, "INSERT INTO penyewa (`id_penyewa`,`nama_penyewa`,`ktp`,`alamat_penyewa`,`telpon`) 
-		VALUES ('$id','$nama','$ktp','$almt','$tlp')") or die(mysqli_error());
-		
-				if($insert) {
-			echo '<script type="text/javascript">alert("Data Berhasil disimpan") </script>';
-			echo '<meta http-equiv="refresh" content="0; url=./lappenyewa.php" >'; //coding refresh
-			
-		} else {
-			echo '<script type="text/javascript">alert("Data gagal disimpan")
-			</script>';
-			
-			echo '<meta http-equiv="refresh" content="0; url=./lappenyewa.php" >'; //coding refresh
-		}
-	}  else {
-		echo '<script type="text/javascript">alert("Data sudah ada")
-			</script>';
-			echo '<meta http-equiv="refresh" content="0; url=./lappenyewa.php" >'; //coding refresh
-  }
-}
-$now = strtotime(date("Y-m-d"));
-$maxage = date("Y-m-d", strtotime('- 16 year', $now));
-$minage = date("Y-m-d", strtotime('- 40 year', $now));
-?>
+				
                   <form class="form" action="" method="post">
                 <div class="form-group"   >
-                	<label class="col-sm-3 control-label">ID Penyewa</label>
+                	<label class="col-sm-3 control-label">No ID</label>
                     <div class="col-sm-2">
-                    	<input type="text" name="id" class="form-control" placeholder="ID Penyewa" required=""  value="<?php echo $ed;?>" readonly>
+                    	<input type="text" name="id" class="form-control" placeholder="-" required=""  value="" readonly>
                        </div>
-					   <label class="col-sm-3 control-label">Nama Penyewa</label>
+					   <label class="col-sm-3 control-label">Nama Petugas</label>
                     <div class="col-sm-6">
-                    	<input type="text" name="nama" class="form-control" placeholder="Nama Penyewa" required>
+                    	<input type="text" name="nama" class="form-control" placeholder="Nama Petugas" required>
                        </div>
-					   <label class="col-sm-3 control-label">KTP</label>
+					   <label class="col-sm-3 control-label">Tempat Lahir</label>
+                    <div class="col-sm-4">
+                    	<input type="text" name="nama" class="form-control" placeholder="Tempat Lahir" required>
+                       </div>
+					   <label class="col-sm-3 control-label">Tanggal Lahir</label>
                     <div class="col-sm-3">
-                    	<input type="text" name="ktp" class="form-control" placeholder="KTP" required>
+                    	<input type="date" name="tanggal_lahir" value=""  class="input-group form-control" placeholder="YYYY-mm-dd" required>
+                       </div>
+					   <label class="col-sm-3 control-label">Jabatan</label>
+                    <div class="col-sm-3">
+                    	<input type="text" name="nama" class="form-control" placeholder="Jabatan" required>
                        </div>
 					   <label class="col-sm-3 control-label">Alamat</label>
                     <div class="col-sm-4">
                     	<textarea type="textarea" name="almt" class="form-control inputstl" rows="5" placeholder="Alamat" ></textarea>
                        </div>
-					   <label class="col-sm-3 control-label">Telpon</label>
+					   <label class="col-sm-3 control-label">Status</label>
                     <div class="col-sm-3">
-                    	<input type="text" name="tlp" class="form-control" placeholder="Telpon" required>
+                    	<select name="nama" id="jenis" class="form-control" placeholder="Nama Peti" required="" span="label label-success">
+						<option required="required" value="">Pilih</option>
+            <option value="admin">Admin</option>
+            <option value="petugas">Petugas</option>
+						</select>
                        </div>
+					   <div class="col-sm-4">
+					   <label for="exampleInputEmail1">User</label>
+                      <input type="text" class="form-control p-input"  placeholder="Enter User">
+                    </div>
+                    <div class="col-sm-4">
+                      <label for="exampleInputPassword1">Password</label>
+                      <input type="password" class="form-control p-input" placeholder="Enter Password">
+                    </div>
                        </div>
 					   
                        <div class="form-group">
@@ -107,7 +86,4 @@ $minage = date("Y-m-d", strtotime('- 40 year', $now));
   <script src="js/misc.js"></script>
   <script src="js/chart.js"></script>
   <script src="js/maps.js"></script>
-   <script type="text/javascript">
-	$(".master-data").addClass("show");
-  </script>
        
