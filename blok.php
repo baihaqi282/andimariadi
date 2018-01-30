@@ -28,26 +28,32 @@ if (isset($_POST['add'])) {
 	$id = $_POST['id'];
 	$nama = $_POST['nama'];
 	
-	
-  if ($id != '') {
-		$insert = mysqli_query($koneksi, "INSERT INTO blok (`id_blok`,`nama_blok`) 
-		VALUES ('$id','$nama')") or die(mysqli_error());
-		
-				if($insert) {
-			echo '<script type="text/javascript">alert("Data Berhasil disimpan") </script>';
-			echo '<meta http-equiv="refresh" content="0; url=./lapblok.php" >'; //coding refresh
-			
-		} else {
-			echo '<script type="text/javascript">alert("Data gagal disimpan")
-			</script>';
-			
-			echo '<meta http-equiv="refresh" content="0; url=./lapblok.php" >'; //coding refresh
-		}
-	}  else {
-		echo '<script type="text/javascript">alert("Data sudah ada")
-			</script>';
-			echo '<meta http-equiv="refresh" content="0; url=./lapblok.php" >'; //coding refresh
+  $search = mysqli_query($koneksi, "SELECT * FROM `blok` WHERE `nama_blok`='$nama'");
+  /*
+  echo mysqli_num_rows($search);
+  */
+  if (mysqli_num_rows($search) > 0) {
+    echo '<script type="text/javascript">alert("Data sudah ada")
+        </script>';
+        echo '<meta http-equiv="refresh" content="0; url=./lapblok.php" >'; //coding refresh
+  } else {
+    if ($id != '') {
+      $insert = mysqli_query($koneksi, "INSERT INTO blok (`id_blok`,`nama_blok`) 
+      VALUES ('$id','$nama')") or die(mysqli_error());
+      
+          if($insert) {
+        echo '<script type="text/javascript">alert("Data Berhasil disimpan") </script>';
+        echo '<meta http-equiv="refresh" content="0; url=./lapblok.php" >'; //coding refresh
+        
+      } else {
+        echo '<script type="text/javascript">alert("Data gagal disimpan")
+        </script>';
+        
+        echo '<meta http-equiv="refresh" content="0; url=./lapblok.php" >'; //coding refresh
+      }
+    }
   }
+
 }
 $now = strtotime(date("Y-m-d"));
 $maxage = date("Y-m-d", strtotime('- 16 year', $now));

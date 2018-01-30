@@ -72,7 +72,7 @@ $minage = date("Y-m-d", strtotime('- 40 year', $now));
                         </div>
 					   <label class="col-sm-3 control-label">Jenis</label>
                     <div class="col-sm-5">
-                    <select class="form-control" span="label label-success" name="jns" required="required">
+                    <select id="jenis_select" class="form-control" span="label label-success" name="jns" required="required">
 		<option required="required" value="">Pilih</option>
 		<?php
 			$k = mysqli_query ($koneksi, "select * from `jenis` order by `nama_jenis` ASC");
@@ -217,17 +217,27 @@ $minage = date("Y-m-d", strtotime('- 40 year', $now));
 		}
 		
 	});
-	$("#radmin").on('click', function() {
-		var pokok = $("#pokok").val();
-		var denda = $("#denda").val();
-		var a = pokok * (11.5/100);
-		var c = parseInt(pokok)+parseInt(a);
-		if (<?php echo date('d');?> > 27) {
-			$("#ttl").val(parseInt(c)+parseInt(denda));
-		} else {
-			$("#ttl").val(c);
-		}
-	});
+  	$("#radmin").on('click', function() {
+  		var pokok = $("#pokok").val();
+  		var denda = $("#denda").val();
+  		var a = pokok * (11.5/100);
+  		var c = parseInt(pokok)+parseInt(a);
+  		if (<?php echo date('d');?> > 27) {
+  			$("#ttl").val(parseInt(c)+parseInt(denda));
+  		} else {
+  			$("#ttl").val(c);
+  		}
+  	});
+
+    $("#jenis_select").on("change", function() {
+      var value = $(this).val();
+      if(value == 'Lahan Parkir') {
+        $("#rppn").prop("checked", true);
+      } else {
+        $("#radmin").prop("checked", true);
+      }
+      
+    })
   })
  
 </script>
