@@ -262,6 +262,25 @@ include "library.php";
 						</table>
 						</div>
 					</div>
+					<br />
+					<table width="30%">
+						<b>Detail Pasar:</b>
+						<?php
+							//SELECT count(`id_blok`) as `total_blok` FROM `toko` WHERE `id_blok` LIKE 'A%'
+							$blok_A = mysqli_query($koneksi, "SELECT count(`id_blok`) as `total_blok` FROM `toko` WHERE `id_blok` LIKE 'A%'");
+							$blok_B = mysqli_query($koneksi, "SELECT count(`id_blok`) as `total_blok` FROM `toko` WHERE `id_blok` LIKE 'B%'");
+							$los = mysqli_query($koneksi, "SELECT count(`id_los`) as `total_blok` FROM `los`");
+							$peti = mysqli_query($koneksi, "SELECT count(`id_peti`) as `total_blok` FROM `bak`");
+							$blok_A = mysqli_fetch_assoc($blok_A);
+							$blok_B = mysqli_fetch_assoc($blok_B);
+							$los = mysqli_fetch_assoc($los);
+							$peti = mysqli_fetch_assoc($peti);
+							echo "<tr><td>Blok A terisi/sisa</td><td>:</td><td>" . $blok_A['total_blok'] . " / <b>" . (10-$blok_B['total_blok']) . "</b></td></tr>";
+							echo "<tr><td>Blok B terisi/sisa</td><td>:</td><td>" . $blok_B['total_blok'] . " / <b>" . (10-$blok_B['total_blok']) . "</b></td></tr>";
+							echo "<tr><td>LOS terisi/sisa</td><td>:</td><td>" . $los['total_blok'] . " / <b>" . (20-$los['total_blok']) . "</b></td></tr>";
+							echo "<tr><td>Peti terisi/sisa</td><td>:</td><td>" . $peti['total_blok'] . " / <b>" . (10-$peti['total_blok']) . "</b></td></tr>";
+						?>
+					</table>
                 </div>
 				</div>
               </div>
