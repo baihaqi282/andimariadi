@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 18 Jan 2018 pada 15.10
+-- Generation Time: 02 Feb 2018 pada 13.14
 -- Versi Server: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -40,7 +40,8 @@ CREATE TABLE `bak` (
 --
 
 INSERT INTO `bak` (`id_peti`, `nama_peti`, `id_penyewa`, `id_blok`, `ukuran`, `harga_sewa`) VALUES
-('E01', 'Romeo', 'muhammad    ', 'A/01', '2x2', '16.000');
+('E01', 'Romeo', 'muhammad    ', 'A/01', '2x2', '16.000'),
+('E02', 'abs', 'muhammad ', 'A/02', '4x2', '16.000');
 
 -- --------------------------------------------------------
 
@@ -50,7 +51,7 @@ INSERT INTO `bak` (`id_peti`, `nama_peti`, `id_penyewa`, `id_blok`, `ukuran`, `h
 
 CREATE TABLE `blok` (
   `id_blok` varchar(11) NOT NULL,
-  `nama_blok` varchar(255) NOT NULL
+  `nama_blok` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -58,7 +59,8 @@ CREATE TABLE `blok` (
 --
 
 INSERT INTO `blok` (`id_blok`, `nama_blok`) VALUES
-('B01', 'A/01');
+('01', 'A/01'),
+('02', 'A/02');
 
 -- --------------------------------------------------------
 
@@ -90,15 +92,21 @@ INSERT INTO `jenis` (`id_jenis`, `nama_jenis`) VALUES
 --
 
 CREATE TABLE `jpfp` (
-  `id` varchar(11) NOT NULL,
+  `id_jpfp` varchar(11) NOT NULL,
   `tgl` date NOT NULL,
+  `jenis` varchar(25) NOT NULL,
   `bulan` varchar(20) NOT NULL,
-  `pokok` varchar(15) NOT NULL,
-  `ppn` varchar(15) NOT NULL,
-  `administrasi` varchar(15) NOT NULL,
+  `retribusi` varchar(15) NOT NULL,
   `denda` varchar(15) NOT NULL,
   `total` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `jpfp`
+--
+
+INSERT INTO `jpfp` (`id_jpfp`, `tgl`, `jenis`, `bulan`, `retribusi`, `denda`, `total`) VALUES
+('01', '2018-02-01', 'Harian Umum Toko', 'Feb', '100000', '', '111500');
 
 -- --------------------------------------------------------
 
@@ -114,10 +122,17 @@ CREATE TABLE `jpftu` (
   `idindeks` varchar(11) NOT NULL,
   `bulan` varchar(50) NOT NULL,
   `retribusi` varchar(15) NOT NULL,
-  `ppn` varchar(15) NOT NULL,
   `denda` varchar(15) NOT NULL,
   `total` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `jpftu`
+--
+
+INSERT INTO `jpftu` (`id`, `tgl`, `jenis_jpftu`, `id_`, `idindeks`, `bulan`, `retribusi`, `denda`, `total`) VALUES
+('01', '2018-01-31', 'toko', 'T01', 'A/01', 'Jan', '100000', '6000', '116000'),
+('02', '2018-01-31', 'toko', 'T04', 'B/02', 'Jan', '100000', '6000', '116000');
 
 -- --------------------------------------------------------
 
@@ -139,7 +154,9 @@ CREATE TABLE `los` (
 --
 
 INSERT INTO `los` (`id_los`, `nama_los`, `id_penyewa`, `id_blok`, `ukuran`, `harga_sewa`) VALUES
-('L01', 'Los1', 'muhammad  ', 'A/01', '4x2', '20.000');
+('L01', 'Los1', 'muhammad  ', 'A/01', '4x2', '20.000'),
+('L02', 'NU', 'ahmad', 'A/01', '4x4', '200.000'),
+('L03', 'Kios Abdi', 'ahmad', 'A/03', '2x2', '16.000');
 
 -- --------------------------------------------------------
 
@@ -160,7 +177,9 @@ CREATE TABLE `penyewa` (
 --
 
 INSERT INTO `penyewa` (`id_penyewa`, `nama_penyewa`, `ktp`, `alamat_penyewa`, `telpon`) VALUES
-('P01', 'muhammad ', '456', 'jln.basuki rahmat', '0897');
+('P01', 'muhammad ', '456', 'jln.basuki rahmat', '0897'),
+('P02', 'ahmad', '1234577890', 'hikun', '0852341234'),
+('P03', 'm.rasyid', '1234', 'banjar', '0897');
 
 -- --------------------------------------------------------
 
@@ -175,19 +194,21 @@ CREATE TABLE `petugas` (
   `tanggal` date NOT NULL,
   `jabatan` varchar(255) NOT NULL,
   `alamat` varchar(255) NOT NULL,
-  `id_jenis` varchar(11) NOT NULL,
-  `level` varchar(11) NOT NULL,
+  `status_petugas` varchar(15) NOT NULL,
   `user` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `jk` varchar(50) NOT NULL
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `petugas`
 --
 
-INSERT INTO `petugas` (`id_petugas`, `nama_petugas`, `tempat`, `tanggal`, `jabatan`, `alamat`, `id_jenis`, `level`, `user`, `password`, `jk`) VALUES
-('1', 'Admin', '1', '2018-01-01', 'admin', 'jln basuki', '1', '1', 'admin', '202cb962ac59075b964b07152d234b70', '1');
+INSERT INTO `petugas` (`id_petugas`, `nama_petugas`, `tempat`, `tanggal`, `jabatan`, `alamat`, `status_petugas`, `user`, `password`) VALUES
+('01', 'Hakki', 'bjb', '2018-01-02', 'saya', 'ane', 'admin', 'bagus', '17b38fc02fd7e92f3edeb6318e3066d8'),
+('02', 'Rangga Orvie', 'Sulingan', '2018-01-29', 'Staff', 'jln.basuki rahmat', 'petugas', 'rangga', '863c2a4b6bff5e22294081e376fc1f51'),
+('03', 'Ahmad Baihaqi', 'Banua Lawas', '2018-01-30', 'Staff', 'asfdsfdf', 'admin', 'baihaqi', 'd1652902023eb117cd6ddf04eddf11e0'),
+('04', 'Ridha', 'kandangan', '1990-02-14', 'Staff', 'jln.banjar', 'petugas', 'ridha', '81dc9bdb52d04dc20036dbd8313ed055'),
+('05', 'Hudha', 'mantri 4', '1993-06-03', 'Staff', 'jln mm', 'admin', 'huda', '81dc9bdb52d04dc20036dbd8313ed055');
 
 -- --------------------------------------------------------
 
@@ -209,7 +230,9 @@ CREATE TABLE `toko` (
 --
 
 INSERT INTO `toko` (`id_toko`, `nama_toko`, `id_penyewa`, `id_blok`, `ukuran`, `harga_sewa`) VALUES
-('T01', 'Sinar Mas', 'muhammad       ', 'A/01', '4x6', '200.000');
+('T01', 'Sinar Mas', 'muhammad         ', 'A/01', '4x6', '200.000'),
+('T02', 'baru', 'muhammad ', 'A/02', '4x4', '200.000'),
+('T04', 'cahaya', 'm.rasyid ', 'B/02', '4x4', '200000');
 
 --
 -- Indexes for dumped tables
@@ -237,7 +260,7 @@ ALTER TABLE `jenis`
 -- Indexes for table `jpfp`
 --
 ALTER TABLE `jpfp`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_jpfp`);
 
 --
 -- Indexes for table `jpftu`
